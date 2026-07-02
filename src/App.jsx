@@ -1,15 +1,30 @@
-import React from "react";
+import {useState} from "react";
 import languages from "./data/languages";
 
 export default function App() {
-  const [currentWord, setCurrentWord] = React.useState("react");
+  /**
+   * Goal: Build out the main parts of our app
+   *
+   * Challenge:
+   * Display the keyboard ⌨️. Use <button>s for each letter
+   * since it'll need to be clickable and tab-accessible.
+   */
+  const [currentWord, setCurrentWord] = useState("react");
+  const alphabet = "abcdefghijklmnopqrstuvwxyz";
+  const alphabetElements = alphabet.split("").map((letter) => {
+    return (
+      <button key={letter} aria-label={letter}>
+        {letter.toUpperCase()}
+      </button>
+    );
+  })
   const wordElements = currentWord.split("").map((letter, index) => {
     return (
       <span key={index} className="letter">
         {letter.toUpperCase()}
       </span>
     );
-  })
+  });
   // Create a new array of JSX elements from the languages array
   const languageElements = languages.map((language) => {
     const styles = {
@@ -22,19 +37,6 @@ export default function App() {
       </span>
     );
   });
-
-  /**
-   * Goal: Build out the main parts of our app
-   *
-   * Challenge:
-   * 1. Save a "currentWord" in state. Initialize as "react".
-   * 2. Map over the letters of the word (you'll need to turn
-   *    the string into an array of letters first) and display
-   *    each one as a <span>. Capitalize the letters when
-   *    displaying them.
-   * 3. Style to look like the design. You can get the underline
-   *    effect on the box using `border-bottom`.
-   */
 
   return (
     <main>
@@ -51,6 +53,8 @@ export default function App() {
       </section>
       <section className="language-chips">{languageElements}</section>
       <section className="word">{wordElements}</section>
+      <section className="keyboard">{alphabetElements}</section>
+      <button className="new-game">New Game</button>
     </main>
   );
 }
