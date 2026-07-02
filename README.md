@@ -1,16 +1,91 @@
-# React + Vite
+# Assembly: Endgame
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Assembly: Endgame is a React-powered word-guessing game built with Vite. Players try to guess a randomly selected word one letter at a time, with only 8 incorrect guesses allowed. Each wrong guess costs one language chip, and the game ends when the player wins or the programming world falls to Assembly.
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- Hangman-style word guessing gameplay
+- 26-letter clickable on-screen keyboard
+- 8 incorrect guess limit represented by programming language chips
+- Animated confetti celebration when the player wins
+- Reveals the full word on loss
+- Accessible ARIA status announcements for screen readers
+- Random word selection from a built-in dictionary
 
-## React Compiler
+## Tech stack
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- React
+- Vite
+- JavaScript (ES modules)
+- CSS for styling
+- `react-confetti` for win effects
+- `clsx` for conditional class names
 
-## Expanding the ESLint configuration
+## Project structure
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+- `src/App.jsx` — main game UI and state management
+- `src/helper/renderGameStatus.jsx` — result/status rendering logic
+- `src/data/languages.js` — language chip definitions and styles
+- `src/data/words.js` — word list for random selection
+- `src/utils/getRandomWord.js` — random word picker
+- `src/utils/getFarewellText.js` — random farewell messages for wrong guesses
+- `src/index.css` — application styling
+
+## Getting started
+
+### Prerequisites
+
+- Node.js 18.x or newer
+- npm 10.x or newer
+
+### Install dependencies
+
+```bash
+npm install
+```
+
+### Run locally
+
+```bash
+npm run dev
+```
+
+Open the local development URL shown in the terminal to play the game.
+
+### Build for production
+
+```bash
+npm run build
+```
+
+### Preview production build
+
+```bash
+npm run preview
+```
+
+## Gameplay rules
+
+- A random word is selected at the start of each game.
+- Click letters to guess them.
+- Correct letters are revealed in the word.
+- Incorrect letters reduce the remaining attempts.
+- After 8 wrong guesses, the game is lost and the full word is shown.
+- A winning game triggers confetti and a victory message.
+
+## Notes
+
+- The word list is defined in `src/data/words.js` and can be extended.
+- The game uses an accessible, screen-reader-friendly status region for feedback.
+- Language chips visually track how many wrong guesses remain.
+
+## Scripts
+
+- `npm run dev` — start the development server
+- `npm run build` — create a production build
+- `npm run preview` — preview the production build locally
+- `npm run lint` — run ESLint checks
+- `npm run format` — format code with Prettier
+- `npm run format:check` — verify formatting with Prettier
+
+
