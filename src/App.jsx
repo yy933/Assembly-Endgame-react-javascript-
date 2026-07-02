@@ -3,14 +3,30 @@ import languages from "./data/languages";
 import { clsx } from "clsx";
 
 export default function App() {
+  /**
+   * Goal: Add in the incorrect guesses mechanism to the game
+   *
+   * Challenge: Derive a variable (`wrongGuessCount`) for the
+   * number of incorrect guesses by using the other state
+   * values we're already holding in the component.
+   *
+   * console.log the wrongGuessCount for now
+   */
   const [currentWord, setCurrentWord] = useState("javascript");
   const [guessWord, setGuessWord] = useState([]);
+  const wrongGuessCount = guessWord.filter(
+    (letter) => !currentWord.includes(letter),
+  ).length;
 
   const alphabet = "abcdefghijklmnopqrstuvwxyz";
+  function handleGuess(letter) {
+    setGuessWord((prev) => (prev.includes(letter) ? prev : [...prev, letter]));
+  }
   const alphabetElements = alphabet.split("").map((letter) => {
     const isGuessed = guessWord.includes(letter);
     const isCorrect = isGuessed && currentWord.includes(letter);
     const isWrong = isGuessed && !currentWord.includes(letter);
+
     const className = clsx({
       correct: isCorrect,
       wrong: isWrong,
@@ -48,10 +64,6 @@ export default function App() {
       </span>
     );
   });
-
-  function handleGuess(letter) {
-    setGuessWord((prev) => (prev.includes(letter) ? prev : [...prev, letter]));
-  }
 
   return (
     <main>
