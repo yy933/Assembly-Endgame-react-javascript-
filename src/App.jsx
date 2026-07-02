@@ -1,23 +1,32 @@
-import {useState} from "react";
+import { useState } from "react";
 import languages from "./data/languages";
+import { clsx } from "clsx";
 
 export default function App() {
-  /**
-   * Goal: Build out the main parts of our app
-   *
-   * Challenge:
-   * Display the keyboard ⌨️. Use <button>s for each letter
-   * since it'll need to be clickable and tab-accessible.
-   */
+  
   const [currentWord, setCurrentWord] = useState("react");
+  const [guessWord, setGuessWord] = useState([]);
+
   const alphabet = "abcdefghijklmnopqrstuvwxyz";
   const alphabetElements = alphabet.split("").map((letter) => {
+    const isGuessed = guessWord.includes(letter);
+    const isCorrect = isGuessed && currentWord.includes(letter);
+    const isWrong = isGuessed && !currentWord.includes(letter);
+    const className = clsx({
+      correct: isCorrect,
+      wrong: isWrong,
+    });
     return (
-      <button key={letter} aria-label={letter}>
+      <button
+        className={className}
+        key={letter}
+        aria-label={letter}
+        onClick={() => handleGuess(letter)}
+      >
         {letter.toUpperCase()}
       </button>
     );
-  })
+  });
   const wordElements = currentWord.split("").map((letter, index) => {
     return (
       <span key={index} className="letter">
@@ -37,6 +46,10 @@ export default function App() {
       </span>
     );
   });
+
+  function handleGuess(letter) {
+    setGuessWord((prev) => (prev.includes(letter) ? prev : [...prev, letter]));
+  }
 
   return (
     <main>
