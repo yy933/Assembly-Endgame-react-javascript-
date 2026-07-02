@@ -3,8 +3,7 @@ import languages from "./data/languages";
 import { clsx } from "clsx";
 
 export default function App() {
-  
-  const [currentWord, setCurrentWord] = useState("react");
+  const [currentWord, setCurrentWord] = useState("javascript");
   const [guessWord, setGuessWord] = useState([]);
 
   const alphabet = "abcdefghijklmnopqrstuvwxyz";
@@ -27,13 +26,16 @@ export default function App() {
       </button>
     );
   });
+
   const wordElements = currentWord.split("").map((letter, index) => {
+    const isGuessed = guessWord.includes(letter);
     return (
       <span key={index} className="letter">
-        {letter.toUpperCase()}
+        {isGuessed ? letter.toUpperCase() : ""}
       </span>
     );
   });
+
   // Create a new array of JSX elements from the languages array
   const languageElements = languages.map((language) => {
     const styles = {
