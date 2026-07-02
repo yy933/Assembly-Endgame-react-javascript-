@@ -1,19 +1,7 @@
 import { useState } from "react";
 import { clsx } from "clsx";
 import languages from "./data/languages";
-
-/**
- * Goal: Add in the incorrect guesses mechanism to the game
- *
- * Challenge:
- * Conditionally render either the "won" or "lost" statuses
- * from the design, both the text and the styles, based on the
- * new derived variables.
- *
- * Note: We always want the surrounding `section` to be rendered,
- * so only change the content inside that section. Otherwise the
- * content on the page would jump around a bit too much.
- */
+import renderGameStatus from "./helper/renderGameStatus";
 
 export default function App() {
   // State values
@@ -98,19 +86,7 @@ export default function App() {
       </header>
 
       <section className={gameStatusClassName}>
-        {isGameOver ? (
-          isGameWon ? (
-            <>
-              <h2>You win!</h2>
-              <p>Well done! 🎉</p>
-            </>
-          ) : (
-            <>
-              <h2>Game over!</h2>
-              <p>You lose! Better start learning Assembly 😭</p>
-            </>
-          )
-        ) : null}
+        {renderGameStatus({ isGameOver, isGameWon, isGameLost })}
       </section>
 
       <section className="language-chips">{languageElements}</section>
