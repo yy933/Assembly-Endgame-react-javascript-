@@ -109,7 +109,9 @@ export default function App() {
           from Assembly!
         </p>
       </header>
-      <section className="attempts-left">You have {numGuessLeft} attempts left.</section>
+      <section className="attempts-left" aria-hidden="true">
+        You have {numGuessLeft} attempts left.
+      </section>
 
       <section className={gameStatusClassName} aria-live="polite" role="status">
         {renderGameStatus({
