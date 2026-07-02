@@ -2,6 +2,7 @@ import { useState } from "react";
 import { clsx } from "clsx";
 import languages from "./data/languages";
 import renderGameStatus from "./helper/renderGameStatus";
+import { getFarewellText } from "./utils/getFarewellText";
 
 export default function App() {
   // State values
@@ -18,10 +19,13 @@ export default function App() {
     .every((letter) => guessedLetters.includes(letter));
   const isGameLost = wrongGuessCount >= languages.length - 1;
   const isGameOver = isGameWon || isGameLost;
+  const lastGuessedLetter = guessedLetters[guessedLetters.length - 1];
+  const isLastGuessIncorrect = lastGuessedLetter && !currentWord.includes(lastGuessedLetter);
 
   const gameStatusClassName = clsx("game-status", {
     won: isGameWon,
     lost: isGameLost,
+    farewell: !isGameOver && isLastGuessIncorrect, 
   });
 
   // Static values
@@ -86,7 +90,7 @@ export default function App() {
       </header>
 
       <section className={gameStatusClassName}>
-        {renderGameStatus({ isGameOver, isGameWon, isGameLost })}
+        {renderGameStatus({ isGameOver, isGameWon, isGameLost, isLastGuessIncorrect, wrongGuessCount })}
       </section>
 
       <section className="language-chips">{languageElements}</section>

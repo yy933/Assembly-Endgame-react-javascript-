@@ -1,5 +1,22 @@
+import languages from "../data/languages";
+import { getFarewellText } from "../utils/getFarewellText";
 export default function renderGameStatus(gameStatus) {
-  const { isGameOver, isGameWon, isGameLost } = gameStatus;
+  // 💡 從參數中解構出新加入的兩個變數
+  const {
+    isGameOver,
+    isGameWon,
+    isGameLost,
+    isLastGuessIncorrect,
+    wrongGuessCount,
+  } = gameStatus;
+
+  if (!isGameOver && isLastGuessIncorrect) {
+    const lostLanguageName = languages[wrongGuessCount - 1]?.name || "Language";
+
+    return (
+      <p className="farewell-message">{getFarewellText(lostLanguageName)}</p>
+    );
+  }
 
   if (!isGameOver) {
     return null;
