@@ -15,11 +15,12 @@ export default function App() {
     (letter) => !currentWord.includes(letter),
   ).length;
 
-  const numGuessesLeft = languages.length - 1;
+  const totalGuessQuota = languages.length - 1;
+  const numGuessLeft = totalGuessQuota - wrongGuessCount;
   const isGameWon = currentWord
     .split("")
     .every((letter) => guessedLetters.includes(letter));
-  const isGameLost = wrongGuessCount >= numGuessesLeft;
+  const isGameLost = wrongGuessCount >= totalGuessQuota;
   const isGameOver = isGameWon || isGameLost;
   const lastGuessedLetter = guessedLetters[guessedLetters.length - 1];
   const isLastGuessIncorrect =
@@ -108,6 +109,7 @@ export default function App() {
           from Assembly!
         </p>
       </header>
+      <section className="attempts-left">You have {numGuessLeft} attempts left.</section>
 
       <section className={gameStatusClassName} aria-live="polite" role="status">
         {renderGameStatus({
@@ -126,7 +128,7 @@ export default function App() {
           {currentWord.includes(lastGuessedLetter)
             ? `Correct! The letter ${lastGuessedLetter} is in the word.`
             : `Sorry, the letter ${lastGuessedLetter} is not in the word.`}
-          You have {numGuessesLeft} attempts left.
+          You have {numGuessLeft} attempts left.
         </p>
         <p>
           Current word:
