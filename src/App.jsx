@@ -3,6 +3,7 @@ import { clsx } from "clsx";
 import languages from "./data/languages";
 import renderGameStatus from "./helper/renderGameStatus";
 import { getRandomWord } from "./utils/getRandomWord";
+import Confetti from "react-confetti";
 
 export default function App() {
   // State values
@@ -99,6 +100,7 @@ export default function App() {
 
   return (
     <main>
+      {isGameWon && <Confetti recycle={false} numberOfPieces={1000} />}
       <header>
         <h1>Assembly: Endgame</h1>
         <p>
