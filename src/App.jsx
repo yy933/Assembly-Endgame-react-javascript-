@@ -2,11 +2,11 @@ import { useState } from "react";
 import { clsx } from "clsx";
 import languages from "./data/languages";
 import renderGameStatus from "./helper/renderGameStatus";
-import { getFarewellText } from "./utils/getFarewellText";
+import { getRandomWord } from "./utils/getRandomWord";
 
 export default function App() {
   // State values
-  const [currentWord, setCurrentWord] = useState("react");
+  const [currentWord, setCurrentWord] = useState(() => getRandomWord());
   const [guessedLetters, setGuessedLetters] = useState([]);
 
   // Derived values

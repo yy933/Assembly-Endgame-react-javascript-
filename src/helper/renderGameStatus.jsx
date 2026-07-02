@@ -1,7 +1,6 @@
 import languages from "../data/languages";
 import { getFarewellText } from "../utils/getFarewellText";
 export default function renderGameStatus(gameStatus) {
-  // 💡 從參數中解構出新加入的兩個變數
   const {
     isGameOver,
     isGameWon,
