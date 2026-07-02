@@ -1,67 +1,65 @@
 import { useState } from "react";
-import languages from "./data/languages";
 import { clsx } from "clsx";
+import languages from "./data/languages";
 
-export default function App() {
-  /**
-   * Goal: Add in the incorrect guesses mechanism to the game
-   *
-   * Challenge: Derive a variable (`wrongGuessCount`) for the
-   * number of incorrect guesses by using the other state
-   * values we're already holding in the component.
-   *
-   * console.log the wrongGuessCount for now
-   */
-  const [currentWord, setCurrentWord] = useState("javascript");
-  const [guessWord, setGuessWord] = useState([]);
-  const wrongGuessCount = guessWord.filter(
+export default function AssemblyEndgame() {
+  // State values
+  const [currentWord, setCurrentWord] = useState("react");
+  const [guessedLetters, setGuessedLetters] = useState([]);
+
+  // Derived values
+  const wrongGuessCount = guessedLetters.filter(
     (letter) => !currentWord.includes(letter),
   ).length;
 
+  // Static values
   const alphabet = "abcdefghijklmnopqrstuvwxyz";
-  function handleGuess(letter) {
-    setGuessWord((prev) => (prev.includes(letter) ? prev : [...prev, letter]));
+
+  function addGuessedLetter(letter) {
+    setGuessedLetters((prevLetters) =>
+      prevLetters.includes(letter) ? prevLetters : [...prevLetters, letter],
+    );
   }
-  const alphabetElements = alphabet.split("").map((letter) => {
-    const isGuessed = guessWord.includes(letter);
+
+  const languageElements = languages.map((lang, index) => {
+    const isLanguageLost = index < wrongGuessCount;
+    const styles = {
+      backgroundColor: lang.backgroundColor,
+      color: lang.color,
+    };
+    const className = clsx("chip", isLanguageLost && "lost");
+    return (
+      <span className={className} style={styles} key={lang.name}>
+        {lang.name}
+      </span>
+    );
+  });
+
+  const letterElements = currentWord
+    .split("")
+    .map((letter, index) => (
+      <span key={index}>
+        {guessedLetters.includes(letter) ? letter.toUpperCase() : ""}
+      </span>
+    ));
+
+  const keyboardElements = alphabet.split("").map((letter) => {
+    const isGuessed = guessedLetters.includes(letter);
     const isCorrect = isGuessed && currentWord.includes(letter);
     const isWrong = isGuessed && !currentWord.includes(letter);
-
     const className = clsx({
       correct: isCorrect,
       wrong: isWrong,
     });
+
     return (
       <button
         className={className}
         key={letter}
-        aria-label={letter}
-        onClick={() => handleGuess(letter)}
+        onClick={() => addGuessedLetter(letter)}
       >
         {letter.toUpperCase()}
       </button>
-    );
-  });
-
-  const wordElements = currentWord.split("").map((letter, index) => {
-    const isGuessed = guessWord.includes(letter);
-    return (
-      <span key={index} className="letter">
-        {isGuessed ? letter.toUpperCase() : ""}
-      </span>
-    );
-  });
-
-  // Create a new array of JSX elements from the languages array
-  const languageElements = languages.map((language) => {
-    const styles = {
-      backgroundColor: language.backgroundColor,
-      color: language.color,
-    };
-    return (
-      <span key={language.name} style={styles} className="language-chip">
-        {language.name}
-      </span>
     );
   });
 
@@ -79,8 +77,8 @@ export default function App() {
         <p>Well done! 🎉</p>
       </section>
       <section className="language-chips">{languageElements}</section>
-      <section className="word">{wordElements}</section>
-      <section className="keyboard">{alphabetElements}</section>
+      <section className="word">{letterElements}</section>
+      <section className="keyboard">{keyboardElements}</section>
       <button className="new-game">New Game</button>
     </main>
   );
