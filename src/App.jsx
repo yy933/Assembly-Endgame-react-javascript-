@@ -53,13 +53,21 @@ export default function App() {
     );
   });
 
-  const letterElements = currentWord
-    .split("")
-    .map((letter, index) => (
-      <span key={index}>
-        {guessedLetters.includes(letter) ? letter.toUpperCase() : ""}
+  const letterElements = currentWord.split("").map((letter, index) => {
+    const isLetterGuessed = guessedLetters.includes(letter);
+    const shouldReveal = isLetterGuessed || isGameLost;
+    const isMissing = !isLetterGuessed && isGameLost;
+
+    const className = clsx({
+      "missing-word": isMissing,
+    });
+
+    return (
+      <span key={index} className={className}>
+        {shouldReveal ? letter.toUpperCase() : ""}
       </span>
-    ));
+    );
+  });
 
   const keyboardElements = alphabet.split("").map((letter) => {
     const isGuessed = guessedLetters.includes(letter);
