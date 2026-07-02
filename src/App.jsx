@@ -84,6 +84,11 @@ export default function App() {
     );
   });
 
+  function resetGame() {
+    setCurrentWord(getRandomWord());
+    setGuessedLetters([]);
+  }
+
   return (
     <main>
       <header>
@@ -125,7 +130,11 @@ export default function App() {
       </section>
       <section className="word">{letterElements}</section>
       <section className="keyboard">{keyboardElements}</section>
-      {isGameOver && <button className="new-game">New Game</button>}
+      {isGameOver && (
+        <button className="new-game" onClick={resetGame}>
+          New Game
+        </button>
+      )}
     </main>
   );
 }
